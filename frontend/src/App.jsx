@@ -1,12 +1,27 @@
-import { Button } from './components/ui/button';
+import { Route } from 'lucide-react';
+import React from 'react';
+import { BrowserRouter, Routes } from 'react-router-dom';
+import SignInForm from './auth/forms/SignInForm';
+import SignUpForm from './auth/forms/SignUpForm';
+import Home from './pages/Home';
+import About from './pages/About';
+import Dashboard from './pages/Dashboard';
+import NewsArticles from './pages/NewsArticles';
 
 function App() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Tailwind CSS with Vite! 🚀
-      </h1>
-      <Button>Click me</Button>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/sign-in" element={<SignInForm></SignInForm>}></Route>
+          <Route path="/sign-up" element={<SignUpForm></SignUpForm>}></Route>
+          <Route path="/" element={<Home></Home>}></Route>
+
+          <Route path="/about" element={<About></About>}></Route>
+          <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+          <Route path="/news" element={<NewsArticles></NewsArticles>}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
