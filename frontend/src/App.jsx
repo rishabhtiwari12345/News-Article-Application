@@ -1,28 +1,26 @@
-import { Route } from 'lucide-react';
 import React from 'react';
-import { BrowserRouter, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // ✅ सही इंपोर्ट
 import SignInForm from './auth/forms/SignInForm';
 import SignUpForm from './auth/forms/SignUpForm';
 import Home from './pages/Home';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import NewsArticles from './pages/NewsArticles';
+import Header from './components/shared/Header';
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/sign-in" element={<SignInForm></SignInForm>}></Route>
-          <Route path="/sign-up" element={<SignUpForm></SignUpForm>}></Route>
-          <Route path="/" element={<Home></Home>}></Route>
-
-          <Route path="/about" element={<About></About>}></Route>
-          <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
-          <Route path="/news" element={<NewsArticles></NewsArticles>}></Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Header></Header>
+      <Routes>
+        <Route path="/sign-in" element={<SignInForm />} />
+        <Route path="/sign-up" element={<SignUpForm />} />
+        <Route path="/" element={<Home />} /> {/* ✅ होम पेज ठीक से लोड होगा */}
+        <Route path="/about" element={<About />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/news" element={<NewsArticles />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
