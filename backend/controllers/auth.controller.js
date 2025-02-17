@@ -6,6 +6,8 @@ export const signup = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
+    console.log(req.body);
+
     // सभी फील्ड्स चेक करें
     if (!username || !email || !password) {
       next(errorHandler(400, 'All fields are required'));
