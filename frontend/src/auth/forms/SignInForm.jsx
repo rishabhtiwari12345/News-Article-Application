@@ -15,6 +15,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from '@/redux/user/userSlice';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }), // Fixed validation
@@ -26,8 +32,11 @@ const formSchema = z.object({
 function SignInForm() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -39,8 +48,7 @@ function SignInForm() {
 
   async function onSubmit(values) {
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(signInStart());
 
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
@@ -51,22 +59,21 @@ function SignInForm() {
       const data = await res.json();
 
       if (data.success === false) {
-        setLoading(false);
         toast({ title: 'sign In failed ! please try again' });
-
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
 
       if (res.ok) {
-        toast({ title: 'sign In successfull ! ' });
+        dispatch(signInSuccess(data)),
+          toast({ title: 'sign In successfull ! ' });
         navigate('/');
       }
 
-      setLoading(false);
       navigate('/');
     } catch (error) {
       setErrorMessage(error.message || 'Something went wrong');
-      setLoading(false);
+      dispatch(signInFailure(error.message));
+
       toast({ title: 'something went wrong' });
     }
   }
