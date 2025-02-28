@@ -21,6 +21,7 @@ import {
   signInStart,
   signInSuccess,
 } from '@/redux/user/userSlice';
+import GoogleAuth from '@/components/shared/GoogleAuth';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }), // Fixed validation
@@ -147,6 +148,7 @@ function SignInForm() {
               >
                 {loading ? 'Submitting...' : 'SignIn'}
               </Button>
+              <GoogleAuth></GoogleAuth>
             </form>
           </Form>
 
